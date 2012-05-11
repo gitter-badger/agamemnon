@@ -34,6 +34,9 @@ class FullTextSearch(object):
         ns_index_names= [str(type) + "-_-" + index_name for index_name in index_names]
         q = WildcardQuery('_all',query_string)
         results = self.conn.search(query=q, indices=ns_index_names, doc_types=type)
+        num_found = len(results)
+        if(num_results > num_found):
+            num_results = num_found
         try:
             nodelist = [self.datastore.get_node(type,r['_id']) for r in results['hits']['hits'][0:num_results]+[results['hits']['hits'][num_results]]]
         except IndexError:
