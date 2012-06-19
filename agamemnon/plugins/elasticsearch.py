@@ -35,13 +35,11 @@ class FullTextSearch(object):
         q = WildcardQuery('_all',query_string)
         results = self.conn.search(query=q, indices=ns_index_names, doc_types=type)
         num_found = len(results)
-        if(num_results > num_found):
+        if(num_results==-1):
+            return [self.datastore.get_node(type,r['_id']) for r in results['hits']['hits']]
+        elif(num_results > num_found):
             num_results = num_found
-        try:
-            nodelist = [self.datastore.get_node(type,r['_id']) for r in results['hits']['hits'][0:num_results]+[results['hits']['hits'][num_results]]]
-        except IndexError:
-            nodelist = [self.datastore.get_node(type,r['_id']) for r in results['hits']['hits'][0:num_results]]
-        return nodelist
+        return [self.datastore.get_node(type,r['_id']) for r in results['hits']['hits'][0:num_results]]
 
     def create_index(self, type, indexed_variables, index_name):
         ns_index_name = str(type) + "-_-" + index_name
