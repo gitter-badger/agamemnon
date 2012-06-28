@@ -397,6 +397,11 @@ class ElasticSearchTests(TestCase, AgamemnonTests):
         self.failUnless(node1 in nodes_found)
         self.failUnless(node2 in nodes_found)
         self.failUnlessEqual(2,len(nodes_found))
+        #test the number_results field
+        nodes_found = self.ds.search_index(node_type,index_name,"1000",1)
+        self.failUnlessEqual(1,len(nodes_found))
+        nodes_found = self.ds.search_index(node_type,index_name,"1000",2)
+        self.failUnlessEqual(2,len(nodes_found))
         #test modify_indices function
         new_args = ['string','new_attr']
         self.ds.create_index(node_type,new_args,new_index_name)

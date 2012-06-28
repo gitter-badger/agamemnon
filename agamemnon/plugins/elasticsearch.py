@@ -38,10 +38,10 @@ class FullTextSearch(object):
         if(num_results > num_found):
             num_results = num_found
         nodelist = [self.datastore.get_node(type,r['_id']) for r in results['hits']['hits']]
-        try:
-            return nodelist[0:num_results]+[nodelist[num_results]]
-        except IndexError:
+        if(num_results!=-1):
             return nodelist[0:num_results]
+        else:
+            return nodelist
 
     def create_index(self, type, indexed_variables, index_name):
         ns_index_name = str(type) + "-_-" + index_name
