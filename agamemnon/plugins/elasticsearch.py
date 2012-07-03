@@ -81,7 +81,10 @@ class FullTextSearch(object):
                 self.conn.delete(ns_index_name,type,key)
             except exceptions.NotFoundException:
                 pass
-            self.conn.index(index_dict,ns_index_name,type,key)
+            try: 
+                self.conn.index(index_dict,ns_index_name,type,key)
+            except exceptions.ElasticSearchParseException:
+                pass
         self.conn.refresh([ns_index_name])
 
     def on_create(self,node):
