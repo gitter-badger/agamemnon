@@ -1,6 +1,7 @@
 from pyes.es import ES
 from pyes import exceptions
 from pyes.query import WildcardQuery
+from string import lower
 
 class FullTextSearch(object):
     def __init__(self,server,settings = None ):
@@ -32,12 +33,12 @@ class FullTextSearch(object):
 
     def search_index(self, type, index_names, query_string, num_results=-1):
         ns_index_names= [str(type) + "-_-" + index_name for index_name in index_names]
-        q = WildcardQuery('_all',query_string)
+        q = WildcardQuery('_all',lower(query_string))
         results = self.conn.search(query=q, indices=ns_index_names, doc_types=type)
         num_found = len(results)
         if(num_results > num_found):
             num_results = num_found
-        nodelist = [self.datastore.get_node(type,r['_id']) for r in results.hits]
+        nodelist = [self.datastore.get_node(type,r['_id']) for r in results['hits']['hits']]
         if(num_results!=-1):
             return nodelist[0:num_results]
         else:
