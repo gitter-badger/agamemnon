@@ -37,7 +37,7 @@ class FullTextSearch(object):
         num_found = len(results)
         if(num_results > num_found):
             num_results = num_found
-        nodelist = [self.datastore.get_node(type,r['_id']) for r in results['hits']['hits']]
+        nodelist = [self.datastore.get_node(type,r['_id']) for r in results.hits]
         if(num_results!=-1):
             return nodelist[0:num_results]
         else:
