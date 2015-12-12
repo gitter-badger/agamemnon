@@ -1,6 +1,8 @@
 Agamemnon
 ==============
 
+[![Join the chat at https://gitter.im/marchon/agamemnon](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/marchon/agamemnon?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Agamemnon is a thin library built on top of pycassa.  
 It allows you to use the Cassandra database (<http://cassandra.apache.org>) as a graph database. 
 Using cassandra provides an extremely high level of reliability and scalability that is not available in other
